@@ -184,7 +184,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: 66e75f7c18a9e4642aa561895375cbd2, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -591,6 +591,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1413040354}
   - component: {fileID: 1413040353}
+  - component: {fileID: 1413040355}
   m_Layer: 0
   m_Name: Placers
   m_TagString: Untagged
@@ -626,6 +627,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1413040355
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1413040352}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c94dd094f6ace941aa225c04d189c4e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BeerPlacer
+  Prefab: {fileID: 2544911471344719079, guid: 366a1f5d371534a43adcce724cd1297e, type: 3}
+  minimumSecondsToWait: 1
+  maximumSecondsToWait: 3
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

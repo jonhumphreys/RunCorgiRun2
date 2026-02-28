@@ -29,7 +29,7 @@ public class KeyboardInput : MonoBehaviour
             Corgi.Move(Vector2.right);
         }
         
-        if (keyboard.spaceKey.isPressed)
+        if (keyboard.spaceKey.wasPressedThisFrame)
         {
             PoopPlacer.Place(Corgi.GetPosition());
         }
