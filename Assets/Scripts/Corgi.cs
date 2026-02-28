@@ -16,6 +16,10 @@ public class Corgi : MonoBehaviour
         
         Vector2 movement = direction * GameParameters.CorgiMoveSpeed * Time.deltaTime;
         corgiSpriteRenderer.transform.Translate(movement.x, movement.y, 0f);
+        
+        // simple v. good
+        corgiSpriteRenderer.transform.position = 
+            SpriteTools.ConstrainToScreen(corgiSpriteRenderer); 
     }
     
     private void FaceCorrectDirection(Vector2 direction)
@@ -24,5 +28,10 @@ public class Corgi : MonoBehaviour
             corgiSpriteRenderer.flipX = false;
         else if (direction.x < 0)
             corgiSpriteRenderer.flipX = true;
+    }
+
+    public Vector3 GetPosition()
+    {
+        return transform.position;
     }
 }
