@@ -1,16 +1,28 @@
+using System;
 using UnityEngine;
 
 public class Corgi : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    private SpriteRenderer corgiSpriteRenderer;
+
+    public void Awake()
     {
-        
+        corgiSpriteRenderer = GetComponent<SpriteRenderer>();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void Move(Vector2 direction)
     {
+        FaceCorrectDirection(direction);
         
+        Vector2 movement = direction * GameParameters.CorgiMoveSpeed * Time.deltaTime;
+        corgiSpriteRenderer.transform.Translate(movement.x, movement.y, 0f);
+    }
+    
+    private void FaceCorrectDirection(Vector2 direction)
+    {
+        if (direction.x > 0)
+            corgiSpriteRenderer.flipX = false;
+        else if (direction.x < 0)
+            corgiSpriteRenderer.flipX = true;
     }
 }
