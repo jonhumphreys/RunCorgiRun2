@@ -12,4 +12,15 @@ public class PoopPlacer : MonoBehaviour
     {
         Instantiate(PoopPrefab, corgiPosition, Quaternion.identity);
     }
+    
+    public void CleanUpPlacedObjects()
+    {
+        List<GameObject> placedObjects =
+            GameObject.FindGameObjectsWithTag(PoopPrefab.tag).ToList();
+
+        for (int i = 0; i < placedObjects.Count; i++)
+        {
+            Destroy(placedObjects[i]);
+        }
+    }
 }

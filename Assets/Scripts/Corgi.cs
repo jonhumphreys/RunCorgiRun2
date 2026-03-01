@@ -80,6 +80,16 @@ public class Corgi : MonoBehaviour
         Move(direction);
     }
     
+    public void Reset()
+    {
+        corgiSpriteRenderer.transform.position =
+            new Vector3(0, 0, 0);
+        corgiSpriteRenderer.flipX = false;
+        corgiSpriteRenderer.sprite = SoberSprite;
+        isDrunk = false;
+        isPlastered = false;
+    }
+    
     private void MoveRandomly()
     {
         int direction = lastRandomDirection;

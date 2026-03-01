@@ -450,6 +450,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Game
   UI: {fileID: 892879769}
   GameTimer: {fileID: 1487753184}
+  BeerPlacer: {fileID: 1413040355}
+  BonePlacer: {fileID: 1413040357}
+  PillPlacer: {fileID: 1413040356}
+  MoonshinePlacer: {fileID: 1413040358}
+  PoopPlacer: {fileID: 1413040353}
+  Corgi: {fileID: 378123222}
+  IsPlaying: 0
 --- !u!4 &371274911
 Transform:
   m_ObjectHideFlags: 0
