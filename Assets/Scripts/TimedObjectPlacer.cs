@@ -12,14 +12,12 @@ public class TimedObjectPlacer : MonoBehaviour
     public float minimumSecondsToWait = 1f;
     public float maximumSecondsToWait = 3f;
     
-    private Coroutine countdownCoroutine;
-    
     void Update()
     {
         if (isOkToCreate)
         {
             // place somewhere randomly on screen
-            countdownCoroutine = StartCoroutine(CountdownUntilCreation());
+            StartCoroutine(CountdownUntilCreation());
         }
     }
 
@@ -40,5 +38,4 @@ public class TimedObjectPlacer : MonoBehaviour
         Instantiate(Prefab, 
             SpawnTools.RandomLocationWorldSpace(), Quaternion.identity);
     }
-    
 }

@@ -6,6 +6,7 @@ public class Corgi : MonoBehaviour
 {
     public Sprite DrunkSprite;
     public Sprite SoberSprite;
+    public UI UI;
     
     private SpriteRenderer corgiSpriteRenderer;
     private Coroutine soberUpCoroutine;
@@ -58,6 +59,8 @@ public class Corgi : MonoBehaviour
         
         if (other.gameObject.tag == "Bone")
         {
+            ScoreKeeper.AddPoint();
+            UI.SetScoreText(ScoreKeeper.GetScore());  
             Destroy(other.gameObject);
         }
         
