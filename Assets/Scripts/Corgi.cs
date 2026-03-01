@@ -10,10 +10,22 @@ public class Corgi : MonoBehaviour
     private SpriteRenderer corgiSpriteRenderer;
     private Coroutine soberUpCoroutine;
     private bool isDrunk = false;
+    private bool isPlastered = false;
+    
+    private int randomMoveCounter = 0;
+    private int lastRandomDirection = 0;
     
     public void Awake()
     {
         corgiSpriteRenderer = GetComponent<SpriteRenderer>();
+    }
+    
+    public void Update()
+    {
+        if (isPlastered)
+        {
+            MoveRandomly();
+        }
     }
 
     public void Move(Vector2 direction)
@@ -49,6 +61,50 @@ public class Corgi : MonoBehaviour
             Destroy(other.gameObject);
         }
         
+        if (other.gameObject.tag == "Moonshine")
+        {
+            GetPlastered();
+            Destroy(other.gameObject);
+        }
+        
+    }
+
+    public void MoveManually(Vector2 direction)
+    {
+        if (isPlastered)
+            return;
+        
+        Move(direction);
+    }
+    
+    private void MoveRandomly()
+    {
+        int direction = lastRandomDirection;
+
+        if (randomMoveCounter == 0)
+        {
+            direction = UnityEngine.Random.Range(0, 4);
+            randomMoveCounter = UnityEngine.Random.Range(20, 40);
+            lastRandomDirection = direction;
+        }
+        
+        switch (direction)
+        {
+            case 0:
+                Move(new Vector2(1, 0));
+                break;
+            case 1:
+                Move(new Vector2(-1, 0));
+                break;
+            case 2:
+                Move(new Vector2(0, 1));
+                break;
+            case 3:
+                Move(new Vector2(0, -1));
+                break;
+        }
+        
+        randomMoveCounter--;
     }
     
     private Vector2 ApplyDrunkenness(Vector2 direction)
@@ -62,11 +118,25 @@ public class Corgi : MonoBehaviour
         return direction;
     }
     
-    private void GetDrunk()
+    private void GetPlastered()
     {
-        isDrunk = true;
+        isPlastered = true;
+        Inebriate();
+    }
+
+    private void Inebriate()
+    {
         ChangeToDrunkSprite();
         StartSoberingUp();
+    }
+
+    private void GetDrunk()
+    {
+        if (isPlastered)
+            return;
+        
+        isDrunk = true;
+        Inebriate();
     }
 
     private void ChangeToDrunkSprite()
@@ -90,6 +160,7 @@ public class Corgi : MonoBehaviour
     private void SoberUp()
     {
         isDrunk = false;
+        isPlastered = false;
         ChangeToSoberSprite();
     }
 
