@@ -7,6 +7,8 @@ public class Corgi : MonoBehaviour
     public Sprite DrunkSprite;
     public Sprite SoberSprite;
     public UI UI;
+    public Sounds Sounds;
+    public GameObject BubbleParticlesPrefab;
     
     private SpriteRenderer corgiSpriteRenderer;
     private Coroutine soberUpCoroutine;
@@ -15,6 +17,8 @@ public class Corgi : MonoBehaviour
     
     private int randomMoveCounter = 0;
     private int lastRandomDirection = 0;
+
+    private GameObject bubbleParticles;
     
     public void Awake()
     {
@@ -47,18 +51,21 @@ public class Corgi : MonoBehaviour
     {
         if (other.gameObject.tag == "Beer")
         {
+            Sounds.PlayBeerSound();
             GetDrunk();
             Destroy(other.gameObject);
         }
         
         if (other.gameObject.tag == "Pill")
         {
+            Sounds.PlayPillSound();
             SoberUp();
             Destroy(other.gameObject);
         }
         
         if (other.gameObject.tag == "Bone")
         {
+            Sounds.PlayBoneSound();
             ScoreKeeper.AddPoint();
             UI.SetScoreText(ScoreKeeper.GetScore());  
             Destroy(other.gameObject);
@@ -66,6 +73,7 @@ public class Corgi : MonoBehaviour
         
         if (other.gameObject.tag == "Moonshine")
         {
+            Sounds.PlayMoonshineSound();
             GetPlastered();
             Destroy(other.gameObject);
         }
@@ -88,6 +96,7 @@ public class Corgi : MonoBehaviour
         corgiSpriteRenderer.sprite = SoberSprite;
         isDrunk = false;
         isPlastered = false;
+        RemoveBubbleParticles();
     }
     
     private void MoveRandomly()
@@ -140,7 +149,23 @@ public class Corgi : MonoBehaviour
     private void Inebriate()
     {
         ChangeToDrunkSprite();
+        AddBubbleParticles();
         StartSoberingUp();
+    }
+
+    private void AddBubbleParticles()
+    {
+        if (bubbleParticles != null)
+            return;
+        
+        bubbleParticles = Instantiate(BubbleParticlesPrefab, transform.position, Quaternion.identity);
+        bubbleParticles.transform.SetParent(transform);
+    }
+    
+    private void RemoveBubbleParticles()
+    {
+        if (bubbleParticles != null)
+            Destroy(bubbleParticles);
     }
 
     private void GetDrunk()
@@ -175,6 +200,7 @@ public class Corgi : MonoBehaviour
         isDrunk = false;
         isPlastered = false;
         ChangeToSoberSprite();
+        RemoveBubbleParticles();
     }
 
     private void ChangeToSoberSprite()

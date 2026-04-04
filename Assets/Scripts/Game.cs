@@ -10,12 +10,15 @@ public class Game : MonoBehaviour
     public MoonshinePlacer MoonshinePlacer;
     public PoopPlacer PoopPlacer;
     public Corgi Corgi;
+    public Music Music;
+    public Sounds Sounds;
     
     public bool IsPlaying = false;
     
     void Start()
     {
         UI.ShowStartScreen();
+        Music.PlayMenuMusic();
     }
 
     public void Update()
@@ -25,6 +28,7 @@ public class Game : MonoBehaviour
 
     public void OnStartButtonClicked()
     {
+        Sounds.PlayPoopSound();
         UI.HideStartScreen();
         InitializeGame();
     }
@@ -38,10 +42,12 @@ public class Game : MonoBehaviour
         ScoreKeeper.ResetScore();
         UI.SetScoreText(0);
         Corgi.Reset();
+        Music.PlayGameMusic();
     }
 
     public void OnPlayAgainButtonClicked()
     {
+        Sounds.PlayPoopSound();
         UI.HideGameOverScreen();
         InitializeGame();
     }
@@ -68,6 +74,8 @@ public class Game : MonoBehaviour
         UI.ShowGameOverScreen();
         IsPlaying = false;
         StopPlacers();
+        //Sounds.StopAllSounds();
+        Music.PlayMenuMusic();
     }
 
 }
