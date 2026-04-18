@@ -336,7 +336,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.3
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -597,7 +597,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 0.4
+  m_Volume: 0.2
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -863,6 +863,7 @@ MonoBehaviour:
   UI: {fileID: 892879769}
   Sounds: {fileID: 111662899}
   BubbleParticlesPrefab: {fileID: 5797265457109694486, guid: 2832be38b28d35e4f949bd82f75505ea, type: 3}
+  Trail: {fileID: 378123225}
 --- !u!50 &378123223
 Rigidbody2D:
   serializedVersion: 5
@@ -2371,7 +2372,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 0.4
+  m_Volume: 0.2
   m_Pitch: 1
   Loop: 0
   Mute: 0

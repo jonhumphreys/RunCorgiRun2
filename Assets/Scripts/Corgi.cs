@@ -9,6 +9,7 @@ public class Corgi : MonoBehaviour
     public UI UI;
     public Sounds Sounds;
     public GameObject BubbleParticlesPrefab;
+    public TrailRenderer Trail;
     
     private SpriteRenderer corgiSpriteRenderer;
     private Coroutine soberUpCoroutine;
@@ -97,6 +98,8 @@ public class Corgi : MonoBehaviour
         isDrunk = false;
         isPlastered = false;
         RemoveBubbleParticles();
+        Trail.Clear();
+        
     }
     
     private void MoveRandomly()

@@ -10,7 +10,7 @@ public class Music : MonoBehaviour
     public AudioSource IncomingSource;
 
     private float fadeDuration = 2f;
-    private float maxVolume = 0.4f;
+    private float maxVolume = 0.2f;
 
     void Awake()
     {
@@ -52,15 +52,14 @@ public class Music : MonoBehaviour
             elapsed += Time.deltaTime;
             float t = elapsed / fadeDuration;
 
-            CurrentSource.volume = maxVolume - t;  
-            IncomingSource.volume = t;       
+            CurrentSource.volume = maxVolume * (1f - t);
+            IncomingSource.volume = maxVolume * t;   
 
             yield return null;
         }
         
         CurrentSource.Stop();
         CurrentSource.volume = maxVolume;
-        
         (CurrentSource, IncomingSource) = (IncomingSource, CurrentSource);
     }
 }
