@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
+using UnityEditorInternal;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class Corgi : MonoBehaviour
 {
@@ -8,12 +10,40 @@ public class Corgi : MonoBehaviour
     public Sprite SoberSprite;
     
     private SpriteRenderer corgiSpriteRenderer;
-    private Coroutine soberUpCoroutine;
     private bool isDrunk = false;
-    
+    private bool isPlastered = false;
+
     public void Awake()
     {
         corgiSpriteRenderer = GetComponent<SpriteRenderer>();
+    }
+
+    public void Update()
+    {
+        if (isPlastered)
+        {
+            MoveRandomly();
+        }
+    }
+
+    private void MoveRandomly()
+    {
+        int direction = Random.Range(0, 4);
+        switch (direction)
+        {
+            case 0:
+                Move(new Vector2(1, 0));
+                break;
+            case 1:
+                Move(new Vector2(-1, 0));
+                break;
+            case 2:
+                Move(new Vector2(0, 1));
+                break;
+            case 3:
+                Move(new Vector2(0, -1));
+                break;
+        }
     }
 
     public void Move(Vector2 direction)
@@ -25,17 +55,35 @@ public class Corgi : MonoBehaviour
         Vector2 movement = direction * GameParameters.CorgiMoveSpeed * Time.deltaTime;
         corgiSpriteRenderer.transform.Translate(movement.x, movement.y, 0f);
         
-        // simple v. good
         corgiSpriteRenderer.transform.position = 
             SpriteTools.ConstrainToScreen(corgiSpriteRenderer); 
     }
-    
+
+    private Vector2 ApplyDrunkenness(Vector2 direction)
+    {
+        if (isDrunk)
+        {
+            direction.x = direction.x * -1;
+            direction.y = direction.y * -1;
+        }
+        return direction;
+    }
+
+    public void OnCollisionEnter2D(Collision2D other)
+    {
+        if (other.gameObject.tag == "Moonshine")
+        {
+            Destroy(other.gameObject);
+            GetPlastered();
+        }
+    }
+
     public void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject.tag == "Beer")
         {
-            GetDrunk();
             Destroy(other.gameObject);
+            GetDrunk();
         }
         
         if (other.gameObject.tag == "Pill")
@@ -46,39 +94,37 @@ public class Corgi : MonoBehaviour
         
         if (other.gameObject.tag == "Bone")
         {
+            ScorePoint();
             Destroy(other.gameObject);
         }
-        
+    }
+
+    private void ScorePoint()
+    {
+        print("Goooooooooooallllll");
     }
     
-    private Vector2 ApplyDrunkenness(Vector2 direction)
+    private void Inebriate()
     {
-        if (isDrunk)
-        {
-            direction.x = direction.x * -1;
-            direction.y = direction.y * -1;
-        }
-        
-        return direction;
-    }
-    
-    private void GetDrunk()
-    {
-        isDrunk = true;
         ChangeToDrunkSprite();
         StartSoberingUp();
     }
-
-    private void ChangeToDrunkSprite()
+    
+    private void GetPlastered()
     {
-        corgiSpriteRenderer.sprite = DrunkSprite;
+        isPlastered = true;
+        Inebriate();
+    }
+
+    private void GetDrunk()
+    {
+        isDrunk = true;
+        Inebriate();
     }
 
     private void StartSoberingUp()
     {
-        if (soberUpCoroutine != null)
-            StopCoroutine(soberUpCoroutine);
-        soberUpCoroutine = StartCoroutine(CountdownUntilSober());
+        StartCoroutine(CountdownUntilSober());
     }
 
     IEnumerator CountdownUntilSober()
@@ -90,6 +136,7 @@ public class Corgi : MonoBehaviour
     private void SoberUp()
     {
         isDrunk = false;
+        isPlastered = false;
         ChangeToSoberSprite();
     }
 
@@ -97,7 +144,13 @@ public class Corgi : MonoBehaviour
     {
         corgiSpriteRenderer.sprite = SoberSprite;
     }
-    
+
+    private void ChangeToDrunkSprite()
+    {
+        corgiSpriteRenderer.sprite = DrunkSprite;
+    }
+
+
     private void FaceCorrectDirection(Vector2 direction)
     {
         if (direction.x > 0)

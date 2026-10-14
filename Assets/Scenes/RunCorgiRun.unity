@@ -671,6 +671,7 @@ GameObject:
   - component: {fileID: 1413040355}
   - component: {fileID: 1413040357}
   - component: {fileID: 1413040356}
+  - component: {fileID: 1413040358}
   m_Layer: 0
   m_Name: Placers
   m_TagString: Untagged
@@ -749,6 +750,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BonePlacer
   Prefab: {fileID: 5955314383265085039, guid: 6040ac5bd6dc288488c9086ed3c2b5d6, type: 3}
+  minimumSecondsToWait: 1
+  maximumSecondsToWait: 3
+--- !u!114 &1413040358
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1413040352}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4918e141f1ee6b549bc44e98c603393c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MoonshinePlacer
+  Prefab: {fileID: 5927167140297029531, guid: e0a60fdaf1facbf48b9a898f43ede773, type: 3}
   minimumSecondsToWait: 1
   maximumSecondsToWait: 3
 --- !u!1660057539 &9223372036854775807
