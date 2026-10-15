@@ -7,12 +7,10 @@ public class PoopPlacer : MonoBehaviour
     // Instantiate can only create prefabs
     // Prefabs are of type GameObject
     public GameObject PoopPrefab;
-    public Sounds Sounds;
     
     public void Place(Vector3 corgiPosition)
     {
         Instantiate(PoopPrefab, corgiPosition, Quaternion.identity);
-        Sounds.PlayPoopSound();
     }
     
     public void CleanUpPlacedObjects()

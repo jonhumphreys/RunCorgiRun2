@@ -9,8 +9,6 @@ public class KeyboardInput : MonoBehaviour
     void Update()
     {
         Keyboard keyboard = Keyboard.current;
-
-        // wasPressedThisFrame v isPressed
         
         if (keyboard.wKey.isPressed)
         {

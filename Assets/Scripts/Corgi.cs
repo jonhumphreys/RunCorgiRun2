@@ -1,25 +1,21 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class Corgi : MonoBehaviour
 {
+    public UI UI;
     public Sprite DrunkSprite;
     public Sprite SoberSprite;
-    public UI UI;
-    public Sounds Sounds;
-    public GameObject BubbleParticlesPrefab;
-    public TrailRenderer Trail;
     
     private SpriteRenderer corgiSpriteRenderer;
     private Coroutine soberUpCoroutine;
     private bool isDrunk = false;
     private bool isPlastered = false;
-    
+
     private int randomMoveCounter = 0;
     private int lastRandomDirection = 0;
-
-    private GameObject bubbleParticles;
     
     public void Awake()
     {
@@ -31,6 +27,14 @@ public class Corgi : MonoBehaviour
         if (isPlastered)
         {
             MoveRandomly();
+        }
+    }
+
+    public void MoveManually(Vector2 direction)
+    {
+        if (isPlastered == false)
+        {
+            Move(direction);
         }
     }
 
@@ -52,41 +56,29 @@ public class Corgi : MonoBehaviour
     {
         if (other.gameObject.tag == "Beer")
         {
-            Sounds.PlayBeerSound();
             GetDrunk();
             Destroy(other.gameObject);
         }
         
         if (other.gameObject.tag == "Pill")
         {
-            Sounds.PlayPillSound();
             SoberUp();
             Destroy(other.gameObject);
         }
         
         if (other.gameObject.tag == "Bone")
         {
-            Sounds.PlayBoneSound();
-            ScoreKeeper.AddPoint();
-            UI.SetScoreText(ScoreKeeper.GetScore());  
             Destroy(other.gameObject);
+            ScoreKeeper.AddPoint();
+            UI.SetScoreText(ScoreKeeper.GetScore());
         }
         
         if (other.gameObject.tag == "Moonshine")
         {
-            Sounds.PlayMoonshineSound();
             GetPlastered();
             Destroy(other.gameObject);
         }
         
-    }
-
-    public void MoveManually(Vector2 direction)
-    {
-        if (isPlastered)
-            return;
-        
-        Move(direction);
     }
     
     public void Reset()
@@ -97,20 +89,19 @@ public class Corgi : MonoBehaviour
         corgiSpriteRenderer.sprite = SoberSprite;
         isDrunk = false;
         isPlastered = false;
-        RemoveBubbleParticles();
-        Trail.Clear();
         
     }
     
     private void MoveRandomly()
     {
         int direction = lastRandomDirection;
-
+        
         if (randomMoveCounter == 0)
         {
-            direction = UnityEngine.Random.Range(0, 4);
-            randomMoveCounter = UnityEngine.Random.Range(20, 40);
+            // pick new direction
+            direction = Random.Range(0, 4);
             lastRandomDirection = direction;
+            randomMoveCounter = Random.Range(60, 240);
         }
         
         switch (direction)
@@ -128,8 +119,8 @@ public class Corgi : MonoBehaviour
                 Move(new Vector2(0, -1));
                 break;
         }
-        
-        randomMoveCounter--;
+
+        randomMoveCounter = randomMoveCounter - 1;
     }
     
     private Vector2 ApplyDrunkenness(Vector2 direction)
@@ -152,25 +143,9 @@ public class Corgi : MonoBehaviour
     private void Inebriate()
     {
         ChangeToDrunkSprite();
-        AddBubbleParticles();
         StartSoberingUp();
     }
-
-    private void AddBubbleParticles()
-    {
-        if (bubbleParticles != null)
-            return;
-        
-        bubbleParticles = Instantiate(BubbleParticlesPrefab, transform.position, Quaternion.identity);
-        bubbleParticles.transform.SetParent(transform);
-    }
     
-    private void RemoveBubbleParticles()
-    {
-        if (bubbleParticles != null)
-            Destroy(bubbleParticles);
-    }
-
     private void GetDrunk()
     {
         if (isPlastered)
@@ -188,7 +163,9 @@ public class Corgi : MonoBehaviour
     private void StartSoberingUp()
     {
         if (soberUpCoroutine != null)
+        {
             StopCoroutine(soberUpCoroutine);
+        }
         soberUpCoroutine = StartCoroutine(CountdownUntilSober());
     }
 
@@ -203,7 +180,6 @@ public class Corgi : MonoBehaviour
         isDrunk = false;
         isPlastered = false;
         ChangeToSoberSprite();
-        RemoveBubbleParticles();
     }
 
     private void ChangeToSoberSprite()
